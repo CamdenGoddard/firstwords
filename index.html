@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firstwords — Interview Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2430;
+    --navy-soft: #2A3644;
+    --paper: #F7F3EC;
+    --paper-dim: #EDE7DA;
+    --teal: #2C7A6B;
+    --teal-light: #DCEBE7;
+    --amber: #D98E3B;
+    --amber-light: #F7E6CC;
+    --rose: #C75D4D;
+    --rose-light: #F5DEDA;
+    --ink-soft: #5A6472;
+    --border: #DCD4C2;
+
+    --serif: "Source Serif 4", Georgia, serif;
+    --sans: "Inter", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--navy);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand-mark {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .confidence-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .confidence-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .confidence-track {
+    width: 140px;
+    height: 8px;
+    background: var(--paper-dim);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .confidence-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* ---------- Layout shell ---------- */
+  .shell {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 32px 100px;
+  }
+
+  /* ---------- Setup screen ---------- */
+  .setup-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .setup-title {
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    max-width: 600px;
+  }
+
+  .setup-sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin-bottom: 44px;
+  }
+
+  .field-group {
+    margin-bottom: 28px;
+  }
+
+  .field-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .field-hint {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  textarea, input[type=text] {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 0.98rem;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--navy);
+    resize: vertical;
+    transition: border-color 0.15s ease;
+  }
+
+  textarea:focus, input[type=text]:focus, button:focus-visible {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-light);
+  }
+
+  textarea { min-height: 110px; line-height: 1.5; }
+
+  .role-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .role-chip {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    color: var(--navy);
+    transition: all 0.15s ease;
+  }
+
+  .role-chip:hover { border-color: var(--teal); }
+  .role-chip.active {
+    background: var(--navy);
+    color: var(--paper);
+    border-color: var(--navy);
+  }
+
+  .btn-primary {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 16px 30px;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-primary:hover { background: #246357; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: var(--ink-soft); cursor: not-allowed; }
+
+  .btn-secondary {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 12px 20px;
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-secondary:hover { border-color: var(--navy); }
+
+  /* ---------- Practice screen ---------- */
+  .session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .q-counter {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .q-role-tag {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--teal);
+  }
+
+  .question-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 36px;
+    margin: 24px 0 32px;
+    position: relative;
+  }
+
+  .question-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 28px;
+    width: 4px; height: calc(100% - 56px);
+    background: var(--teal);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .question-text {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-weight: 600;
+    padding-left: 8px;
+  }
+
+  .answer-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .word-count {
+    font-family: var(--mono);
+  }
+
+  #answerInput {
+    min-height: 180px;
+    font-size: 1rem;
+  }
+
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    align-items: center;
+  }
+
+  .skip-link {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+  }
+
+  .skip-link:hover { color: var(--navy); }
+
+  /* ---------- Loading state ---------- */
+  .loading-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    padding: 20px 0;
+  }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Feedback ---------- */
+  .feedback-block {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    margin-top: 28px;
+    animation: rise 0.4s ease;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  .feedback-grade {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .grade-strong { background: var(--teal-light); color: var(--teal); }
+  .grade-okay { background: var(--amber-light); color: #97651E; }
+  .grade-needs-work { background: var(--rose-light); color: var(--rose); }
+
+  .feedback-section {
+    margin-bottom: 18px;
+  }
+
+  .feedback-section-title {
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: var(--navy);
+  }
+
+  .feedback-section-body {
+    font-size: 0.96rem;
+    color: var(--navy-soft);
+    line-height: 1.6;
+  }
+
+  .feedback-section-body ul {
+    margin: 6px 0 0 18px;
+  }
+
+  .feedback-section-body li {
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Setup error / config notice ---------- */
+  .notice {
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 0.88rem;
+    color: #6B4717;
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+
+  .notice code {
+    font-family: var(--mono);
+    background: rgba(0,0,0,0.06);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  /* ---------- Completion screen ---------- */
+  .complete-wrap {
+    text-align: center;
+    padding: 60px 0;
+  }
+
+  .complete-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+
+  .complete-title {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .complete-sub {
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin: 0 auto 36px;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 640px) {
+    .topbar { padding: 18px 20px; }
+    .shell { padding: 36px 20px 80px; }
+    .setup-title { font-size: 2rem; }
+    .question-card { padding: 24px; }
+    .question-text { font-size: 1.25rem; }
+    .confidence-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-mark">Firstwords</span>
+    <span class="brand-tag">Interview Practice</span>
+  </div>
+  <div class="confidence-wrap" id="confidenceWrap">
+    <span class="confidence-label">Session</span>
+    <div class="confidence-track">
+      <div class="confidence-fill" id="confidenceFill"></div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- SETUP SCREEN -->
+  <div id="setupScreen">
+    <span class="setup-eyebrow">Before the real one</span>
+    <h1 class="setup-title">Practice the interview before it's the one that counts.</h1>
+    <p class="setup-sub">Tell us about the role. We'll ask what they'll actually ask, then tell you — specifically — what's working and what isn't.</p>
+
+    <div id="apiNotice" class="notice hidden"></div>
+
+    <div class="field-group">
+      <label class="field-label" for="roleInput">Role you're interviewing for</label>
+      <input type="text" id="roleInput" placeholder="e.g. Retail Associate, Marketing Intern, Customer Support Rep" />
+      <div class="role-row">
+        <button class="role-chip" data-role="Retail Associate">Retail Associate</button>
+        <button class="role-chip" data-role="Customer Support Rep">Customer Support</button>
+        <button class="role-chip" data-role="Marketing Intern">Marketing Intern</button>
+        <button class="role-chip" data-role="Administrative Assistant">Admin Assistant</button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="bgInput">A little about your background (optional)</label>
+      <div class="field-hint">Paste a few lines from your resume, or just describe your experience. The more specific, the more specific your questions will be.</div>
+      <textarea id="bgInput" placeholder="e.g. I worked at a coffee shop for two years, mostly handling customers and training new hires. I'm finishing a certificate in digital marketing..."></textarea>
+    </div>
+
+    <button class="btn-primary" id="startBtn">Start practicing →</button>
+  </div>
+
+  <!-- PRACTICE SCREEN -->
+  <div id="practiceScreen" class="hidden">
+    <div class="session-header">
+      <span class="q-counter" id="qCounter">Question 1 of 3</span>
+      <span class="q-role-tag" id="qRoleTag"></span>
+    </div>
+
+    <div class="question-card">
+      <div class="question-text" id="questionText">Loading your first question…</div>
+    </div>
+
+    <div id="answerArea">
+      <div class="answer-label">
+        <span>Your answer</span>
+        <span class="word-count" id="wordCount">0 words</span>
+      </div>
+      <textarea id="answerInput" placeholder="Take your time. Write it like you'd say it out loud."></textarea>
+      <div class="action-row">
+        <button class="btn-primary" id="submitBtn">Get feedback</button>
+        <button class="skip-link" id="skipBtn">Skip this one</button>
+      </div>
+    </div>
+
+    <div id="loadingArea" class="hidden">
+      <div class="loading-row">
+        <div class="spinner"></div>
+        <span id="loadingText">Reading your answer…</span>
+      </div>
+    </div>
+
+    <div id="feedbackArea" class="hidden"></div>
+  </div>
+
+  <!-- COMPLETE SCREEN -->
+  <div id="completeScreen" class="hidden">
+    <div class="complete-wrap">
+      <div class="complete-eyebrow">Session complete</div>
+      <h2 class="complete-title">That's three questions down.</h2>
+      <p class="complete-sub">The real interview will feel more familiar than the last one did. Run another round whenever you want — same role or a new one.</p>
+      <button class="btn-secondary" id="restartBtn">Practice again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   FIRSTWORDS — Interview Practice
+   ============================================================
+   This file is fully self-contained (HTML/CSS/JS). The only
+   external dependency is the Anthropic API call in callClaude().
+
+   This site calls a Netlify Function (netlify/functions/ask.js) which
+   holds the real Anthropic API key server-side, in an environment
+   variable, and forwards requests to Claude. The key never appears
+   in this file or in the browser. Set ANTHROPIC_API_KEY in:
+   Netlify dashboard > Site configuration > Environment variables.
+   ============================================================ */
+
+  const USE_BACKEND_ENDPOINT = "/.netlify/functions/ask";
+
+  const TOTAL_QUESTIONS = 3;
+
+  let state = {
+    role: "",
+    background: "",
+    questions: [],
+    currentIndex: 0,
+    scores: []
+  };
+
+  // ---------- DOM refs ----------
+  const setupScreen = document.getElementById('setupScreen');
+  const practiceScreen = document.getElementById('practiceScreen');
+  const completeScreen = document.getElementById('completeScreen');
+  const apiNotice = document.getElementById('apiNotice');
+
+  const roleInput = document.getElementById('roleInput');
+  const bgInput = document.getElementById('bgInput');
+  const startBtn = document.getElementById('startBtn');
+
+  const qCounter = document.getElementById('qCounter');
+  const qRoleTag = document.getElementById('qRoleTag');
+  const questionText = document.getElementById('questionText');
+  const answerArea = document.getElementById('answerArea');
+  const answerInput = document.getElementById('answerInput');
+  const wordCount = document.getElementById('wordCount');
+  const submitBtn = document.getElementById('submitBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const loadingArea = document.getElementById('loadingArea');
+  const loadingText = document.getElementById('loadingText');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const confidenceFill = document.getElementById('confidenceFill');
+  const restartBtn = document.getElementById('restartBtn');
+
+  // ---------- Setup screen interactions ----------
+  document.querySelectorAll('.role-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      roleInput.value = chip.dataset.role;
+    });
+  });
+
+  // If the backend isn't configured yet (no ANTHROPIC_API_KEY set in
+  // Netlify), generateQuestions()/getFeedback() below will catch the
+  // failed request and show a friendly fallback automatically.
+
+  startBtn.addEventListener('click', async () => {
+    const role = roleInput.value.trim();
+    if (!role) {
+      roleInput.style.borderColor = 'var(--rose)';
+      roleInput.focus();
+      return;
+    }
+    state.role = role;
+    state.background = bgInput.value.trim();
+    state.currentIndex = 0;
+    state.scores = [];
+
+    setupScreen.classList.add('hidden');
+    practiceScreen.classList.remove('hidden');
+    qRoleTag.textContent = role;
+
+    await generateQuestions();
+    showQuestion(0);
+  });
+
+  // ---------- Word count ----------
+  answerInput.addEventListener('input', () => {
+    const words = answerInput.value.trim().split(/\s+/).filter(Boolean).length;
+    wordCount.textContent = `${words} word${words === 1 ? '' : 's'}`;
+  });
+
+  // ---------- Question generation ----------
+  async function generateQuestions() {
+    questionText.textContent = "Putting together questions for this role…";
+
+    const prompt = `You are helping someone practice for a job interview for the role of "${state.role}".
+${state.background ? `Their background: ${state.background}` : "No background details were provided."}
+
+Generate exactly ${TOTAL_QUESTIONS} realistic interview questions a hiring manager would actually ask for this role. Mix in at least one behavioral question (e.g. "tell me about a time...") and one role-specific question. If background was provided, make at least one question reference it directly.
+
+Respond ONLY with a JSON array of ${TOTAL_QUESTIONS} strings, nothing else. Example format:
+["question one", "question two", "question three"]`;
+
+    try {
+      const raw = await callClaude(prompt);
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      state.questions = JSON.parse(cleaned);
+    } catch (err) {
+      console.error("Question generation failed:", err);
+      // Fallback so the tool is still usable/demoable without a live API key
+      state.questions = [
+        `Tell me about a time you handled a difficult situation while ${state.role ? `working in a role like ${state.role}` : "at work"}.`,
+        `Why are you interested in this ${state.role} position?`,
+        `What's something you'd want to improve about how you work, and how are you working on it?`
+      ];
+    }
+  }
+
+  // ---------- Show a question ----------
+  function showQuestion(index) {
+    answerArea.classList.remove('hidden');
+    feedbackArea.classList.add('hidden');
+    loadingArea.classList.add('hidden');
+    answerInput.value = "";
+    wordCount.textContent = "0 words";
+    qCounter.textContent = `Question ${index + 1} of ${TOTAL_QUESTIONS}`;
+    questionText.textContent = state.questions[index] || "…";
+    answerInput.focus();
+  }
+
+  // ---------- Submit answer ----------
+  submitBtn.addEventListener('click', async () => {
+    const answer = answerInput.value.trim();
+    if (!answer) {
+      answerInput.style.borderColor = 'var(--rose)';
+      answerInput.focus();
+      return;
+    }
+    await getFeedback(answer);
+  });
+
+  skipBtn.addEventListener('click', () => {
+    advance();
+  });
+
+  async function getFeedback(answer) {
+    answerArea.classList.add('hidden');
+    loadingArea.classList.remove('hidden');
+    loadingText.textContent = "Reading your answer…";
+
+    const question = state.questions[state.currentIndex];
+    const prompt = `You are a supportive but honest interview coach helping someone prepare for a "${state.role}" interview.
+
+Question asked: "${question}"
+Their answer: "${answer}"
+
+Give feedback using the STAR method as your lens (Situation, Task, Action, Result), but don't lecture about STAR by name unless useful. Be specific and concrete — reference their actual words, not generic advice. Be encouraging but honest; don't inflate a weak answer.
+
+Respond ONLY with a JSON object in this exact shape:
+{
+  "grade": "strong" | "okay" | "needs_work",
+  "headline": "one short sentence summarizing the overall take",
+  "whats_working": "1-2 sentences on what was genuinely good, specific to their answer",
+  "whats_missing": "1-2 sentences on what's missing or could be sharper, specific to their answer",
+  "try_this": "a short, concrete rewording suggestion or specific tip they can apply next time"
+}`;
+
+    try {
+      const raw = await callClaude(prompt);
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      const feedback = JSON.parse(cleaned);
+      renderFeedback(feedback);
+      state.scores.push(feedback.grade);
+    } catch (err) {
+      console.error("Feedback generation failed:", err);
+      renderFeedback({
+        grade: "okay",
+        headline: "Couldn't reach the feedback engine — here's a placeholder so you can see the layout.",
+        whats_working: "Connect an API key or backend route to get real feedback on this answer.",
+        whats_missing: "Once connected, this will reference specifics from what you actually wrote.",
+        try_this: "Check that ANTHROPIC_API_KEY is set in your Netlify environment variables."
+      });
+      state.scores.push("okay");
+    }
+
+    loadingArea.classList.add('hidden');
+    updateConfidenceMeter();
+  }
+
+  function renderFeedback(fb) {
+    const gradeClass = fb.grade === 'strong' ? 'grade-strong' : fb.grade === 'needs_work' ? 'grade-needs-work' : 'grade-okay';
+    const gradeLabel = fb.grade === 'strong' ? 'Strong answer' : fb.grade === 'needs_work' ? 'Needs work' : 'Solid start';
+
+    feedbackArea.innerHTML = `
+      <div class="feedback-block">
+        <div class="feedback-eyebrow">Feedback</div>
+        <div class="feedback-grade ${gradeClass}">${gradeLabel}</div>
+        <div class="feedback-section">
+          <div class="feedback-section-body" style="font-family: var(--serif); font-size: 1.1rem; color: var(--navy);">${escapeHtml(fb.headline)}</div>
+        </div>
+        <div class="feedback-section">
+          <div class="feedback-section-title">What's working</div>
+          <div class="feedback-section-body">${escapeHtml(fb.whats_working)}</div>
+        </div>
+        <div class="feedback-section">
+          <div class="feedback-section-title">What's missing</div>
+          <div class="feedback-section-body">${escapeHtml(fb.whats_missing)}</div>
+        </div>
+        <div class="feedback-section">
+          <div class="feedback-section-title">Try this</div>
+          <div class="feedback-section-body">${escapeHtml(fb.try_this)}</div>
+        </div>
+        <div class="action-row">
+          <button class="btn-primary" id="nextBtn">${state.currentIndex < TOTAL_QUESTIONS - 1 ? 'Next question →' : 'Finish session →'}</button>
+        </div>
+      </div>
+    `;
+    feedbackArea.classList.remove('hidden');
+    document.getElementById('nextBtn').addEventListener('click', advance);
+  }
+
+  function advance() {
+    state.currentIndex++;
+    if (state.currentIndex >= TOTAL_QUESTIONS) {
+      showComplete();
+    } else {
+      showQuestion(state.currentIndex);
+    }
+  }
+
+  function updateConfidenceMeter() {
+    const pct = Math.round((state.scores.length / TOTAL_QUESTIONS) * 100);
+    confidenceFill.style.width = pct + '%';
+  }
+
+  function showComplete() {
+    practiceScreen.classList.add('hidden');
+    completeScreen.classList.remove('hidden');
+  }
+
+  restartBtn.addEventListener('click', () => {
+    completeScreen.classList.add('hidden');
+    setupScreen.classList.remove('hidden');
+    confidenceFill.style.width = '0%';
+    answerInput.value = '';
+    state = { role: "", background: "", questions: [], currentIndex: 0, scores: [] };
+  });
+
+  // ---------- Anthropic API call ----------
+  // Always goes through our own Netlify Function, never directly to
+  // Anthropic from the browser — that's what keeps the API key hidden.
+  async function callClaude(promptText) {
+    const res = await fetch(USE_BACKEND_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: promptText })
+    });
+    if (!res.ok) throw new Error("Backend request failed");
+    const data = await res.json();
+    return data.text;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
