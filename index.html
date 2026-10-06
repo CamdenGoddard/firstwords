@@ -494,8 +494,9 @@
 
     <div class="field-group">
       <label class="field-label" for="roleInput">Role you're interviewing for</label>
-      <input type="text" id="roleInput" placeholder="e.g. Retail Associate, Marketing Intern, Customer Support Rep" />
+      <input type="text" id="roleInput" placeholder="e.g. Software Engineering Intern, Marketing Intern, Retail Associate" />
       <div class="role-row">
+        <button class="role-chip" data-role="Software Engineering Intern">Software Eng Intern</button>
         <button class="role-chip" data-role="Retail Associate">Retail Associate</button>
         <button class="role-chip" data-role="Customer Support Rep">Customer Support</button>
         <button class="role-chip" data-role="Marketing Intern">Marketing Intern</button>
@@ -571,7 +572,7 @@
    Netlify dashboard > Site configuration > Environment variables.
    ============================================================ */
 
-  const USE_BACKEND_ENDPOINT = "/.netlify/functions/ask";
+  const USE_BACKEND_ENDPOINT = "/api/ask";
 
   const TOTAL_QUESTIONS = 3;
 
@@ -650,16 +651,8 @@
   async function generateQuestions() {
     questionText.textContent = "Putting together questions for this role…";
 
-    const prompt = `You are helping someone practice for a job interview for the role of "${state.role}".
-${state.background ? `Their background: ${state.background}` : "No background details were provided."}
-
-Generate exactly ${TOTAL_QUESTIONS} realistic interview questions a hiring manager would actually ask for this role. Mix in at least one behavioral question (e.g. "tell me about a time...") and one role-specific question. If background was provided, make at least one question reference it directly.
-
-Respond ONLY with a JSON array of ${TOTAL_QUESTIONS} strings, nothing else. Example format:
-["question one", "question two", "question three"]`;
-
     try {
-      const raw = await callClaude(prompt);
+      const raw = await callClaude({ action: "questions", role: state.role, background: state.background });
       const cleaned = raw.replace(/```json|```/g, '').trim();
       state.questions = JSON.parse(cleaned);
     } catch (err) {
@@ -706,36 +699,25 @@ Respond ONLY with a JSON array of ${TOTAL_QUESTIONS} strings, nothing else. Exam
     loadingText.textContent = "Reading your answer…";
 
     const question = state.questions[state.currentIndex];
-    const prompt = `You are a supportive but honest interview coach helping someone prepare for a "${state.role}" interview.
-
-Question asked: "${question}"
-Their answer: "${answer}"
-
-Give feedback using the STAR method as your lens (Situation, Task, Action, Result), but don't lecture about STAR by name unless useful. Be specific and concrete — reference their actual words, not generic advice. Be encouraging but honest; don't inflate a weak answer.
-
-Respond ONLY with a JSON object in this exact shape:
-{
-  "grade": "strong" | "okay" | "needs_work",
-  "headline": "one short sentence summarizing the overall take",
-  "whats_working": "1-2 sentences on what was genuinely good, specific to their answer",
-  "whats_missing": "1-2 sentences on what's missing or could be sharper, specific to their answer",
-  "try_this": "a short, concrete rewording suggestion or specific tip they can apply next time"
-}`;
-
     try {
-      const raw = await callClaude(prompt);
+      const raw = await callClaude({ action: "feedback", role: state.role, question, answer });
       const cleaned = raw.replace(/```json|```/g, '').trim();
       const feedback = JSON.parse(cleaned);
       renderFeedback(feedback);
       state.scores.push(feedback.grade);
     } catch (err) {
       console.error("Feedback generation failed:", err);
+      const limited = err.message === "rate_limited";
       renderFeedback({
         grade: "okay",
-        headline: "Couldn't reach the feedback engine — here's a placeholder so you can see the layout.",
-        whats_working: "Connect an API key or backend route to get real feedback on this answer.",
-        whats_missing: "Once connected, this will reference specifics from what you actually wrote.",
-        try_this: "Check that ANTHROPIC_API_KEY is set in your Netlify environment variables."
+        headline: limited
+          ? "You're practicing fast! Take a short break — feedback will be back in a couple of minutes."
+          : "Couldn't reach the feedback engine right now — here's a placeholder so you can keep going.",
+        whats_working: "Your answer was saved on this screen, so you can copy it before moving on.",
+        whats_missing: "Real feedback will reference specifics from what you actually wrote.",
+        try_this: limited
+          ? "Wait a minute or two, then start a new round to get full feedback."
+          : "Try again in a moment. If it keeps happening, the service may be temporarily down."
       });
       state.scores.push("okay");
     }
@@ -806,12 +788,13 @@ Respond ONLY with a JSON object in this exact shape:
   // ---------- Anthropic API call ----------
   // Always goes through our own Netlify Function, never directly to
   // Anthropic from the browser — that's what keeps the API key hidden.
-  async function callClaude(promptText) {
+  async function callClaude(payload) {
     const res = await fetch(USE_BACKEND_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: promptText })
+      body: JSON.stringify(payload)
     });
+    if (res.status === 429) throw new Error("rate_limited");
     if (!res.ok) throw new Error("Backend request failed");
     const data = await res.json();
     return data.text;
