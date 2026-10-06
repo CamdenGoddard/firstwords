@@ -4,10 +4,6 @@ A small web app that helps people practice for job interviews. You enter the rol
 
 **Live site:** https://thefirstwords.netlify.app
 
-## Why I built this
-
-This was built for the [Claude Corps Fellowship](https://www.anthropic.com) application, with Braven (a Chicago-based nonprofit) in mind as a potential host organization. Braven helps first-generation and lower-income college students land their first strong job — and interview practice is one of the most useful, concrete ways AI can help with that. A lot of people preparing for their first real interview don't have someone available to run a mock interview with them. This tool tries to fill a small piece of that gap: realistic questions, and feedback that's specific rather than generic ("good job!" isn't useful — "you described the situation but never said what *you* actually did" is).
-
 ## How it works
 
 - **Frontend** (`index.html`): A single self-contained HTML/CSS/JS page. No frameworks — just vanilla JS, so it's easy to read end-to-end. It collects the role and background, requests interview questions, displays them one at a time, collects answers, and renders feedback.
