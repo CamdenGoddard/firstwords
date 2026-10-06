@@ -3,38 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Firstwords — Interview Practice</title>
+<title>Firstwords – interview practice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #1B2430;
-    --navy-soft: #2A3644;
-    --paper: #F7F3EC;
-    --paper-dim: #EDE7DA;
-    --teal: #2C7A6B;
-    --teal-light: #DCEBE7;
-    --amber: #D98E3B;
-    --amber-light: #F7E6CC;
-    --rose: #C75D4D;
-    --rose-light: #F5DEDA;
-    --ink-soft: #5A6472;
-    --border: #DCD4C2;
-
-    --serif: "Source Serif 4", Georgia, serif;
-    --sans: "Inter", -apple-system, sans-serif;
-    --mono: "JetBrains Mono", monospace;
+    --ink: #1D2125;
+    --ink-2: #4A5058;
+    --muted: #6B727A;
+    --line: #DCE0E4;
+    --surface: #F4F5F6;
+    --bg: #FFFFFF;
+    --focus: #2C5BD8;
+    --strong: #1C7A47;
+    --okay: #8F5D00;
+    --weak: #B42318;
+    --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
-
   body {
-    background: var(--paper);
-    color: var(--navy);
-    font-family: var(--sans);
-    line-height: 1.5;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -43,302 +38,215 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 40px;
-    border-bottom: 1px solid var(--border);
+    gap: 16px;
+    height: 56px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--line);
   }
 
-  .brand {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
+  .brand { font-weight: 600; font-size: 1rem; letter-spacing: -0.005em; }
 
-  .brand-mark {
-    font-family: var(--serif);
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.01em;
-  }
-
-  .brand-tag {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .confidence-wrap {
+  .progress {
     display: flex;
     align-items: center;
     gap: 10px;
+    font-size: 0.875rem;
+    color: var(--muted);
   }
 
-  .confidence-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .confidence-track {
-    width: 140px;
-    height: 8px;
-    background: var(--paper-dim);
-    border-radius: 4px;
+  .progress-track {
+    width: 120px;
+    height: 4px;
+    background: var(--surface);
+    border-radius: 2px;
     overflow: hidden;
-    border: 1px solid var(--border);
   }
 
-  .confidence-fill {
+  .progress-fill {
     height: 100%;
     width: 0%;
-    background: var(--teal);
-    border-radius: 4px;
-    transition: width 0.6s ease;
+    background: var(--ink);
+    transition: width 0.3s ease;
   }
 
-  /* ---------- Layout shell ---------- */
+  /* ---------- Layout ---------- */
   .shell {
-    max-width: 880px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 56px 32px 100px;
+    padding: 48px 24px 96px;
   }
 
-  /* ---------- Setup screen ---------- */
-  .setup-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--teal);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 18px;
-    display: block;
-  }
-
-  .setup-title {
-    font-family: var(--serif);
-    font-size: 2.6rem;
-    line-height: 1.15;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 16px;
-    max-width: 600px;
-  }
-
-  .setup-sub {
-    font-size: 1.05rem;
-    color: var(--ink-soft);
-    max-width: 520px;
-    margin-bottom: 44px;
-  }
-
-  .field-group {
-    margin-bottom: 28px;
-  }
-
-  .field-label {
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--navy);
+  h1 {
+    font-size: 1.75rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.015em;
     margin-bottom: 8px;
   }
 
+  .lede {
+    color: var(--ink-2);
+    margin-bottom: 36px;
+    max-width: 34em;
+  }
+
+  .field { margin-bottom: 28px; }
+
+  .field-label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    margin-bottom: 6px;
+  }
+
   .field-hint {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: -2px 0 8px;
   }
 
   textarea, input[type=text] {
     width: 100%;
-    font-family: var(--sans);
-    font-size: 0.98rem;
-    padding: 14px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-    color: var(--navy);
+    font: inherit;
+    font-size: 1rem;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--ink);
     resize: vertical;
-    transition: border-color 0.15s ease;
   }
 
-  textarea:focus, input[type=text]:focus, button:focus-visible {
+  textarea::placeholder, input::placeholder { color: #9AA0A6; }
+
+  textarea:focus, input[type=text]:focus {
     outline: none;
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px var(--teal-light);
+    border-color: var(--focus);
+    box-shadow: 0 0 0 1px var(--focus);
   }
 
-  textarea { min-height: 110px; line-height: 1.5; }
+  button:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
 
-  .role-row {
+  textarea { min-height: 96px; line-height: 1.55; }
+
+  .suggestions {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
-    margin-top: 6px;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 0.875rem;
+    color: var(--muted);
   }
 
   .role-chip {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    padding: 8px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    background: #fff;
+    font: inherit;
+    font-size: 0.875rem;
+    padding: 3px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--ink-2);
     cursor: pointer;
-    color: var(--navy);
-    transition: all 0.15s ease;
   }
 
-  .role-chip:hover { border-color: var(--teal); }
-  .role-chip.active {
-    background: var(--navy);
-    color: var(--paper);
-    border-color: var(--navy);
-  }
+  .role-chip:hover { background: var(--surface); color: var(--ink); }
+  .role-chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 
   .btn-primary {
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 16px 30px;
-    background: var(--teal);
+    font: inherit;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    padding: 9px 18px;
+    background: var(--ink);
     color: #fff;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 6px;
     cursor: pointer;
-    transition: transform 0.12s ease, background 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
   }
 
-  .btn-primary:hover { background: #246357; }
-  .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { background: var(--ink-soft); cursor: not-allowed; }
+  .btn-primary:hover { background: #000; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .btn-secondary {
-    font-family: var(--sans);
+    font: inherit;
     font-weight: 500;
-    font-size: 0.92rem;
-    padding: 12px 20px;
-    background: transparent;
-    color: var(--navy);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
+    font-size: 0.9375rem;
+    padding: 9px 18px;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.15s ease;
   }
 
-  .btn-secondary:hover { border-color: var(--navy); }
+  .btn-secondary:hover { background: var(--surface); }
 
-  /* ---------- Practice screen ---------- */
-  .session-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 8px;
+  .skip-link {
+    font: inherit;
+    font-size: 0.9375rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    padding: 9px 4px;
+    cursor: pointer;
   }
 
-  .q-counter {
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .q-role-tag {
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    color: var(--teal);
-  }
-
-  .question-card {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 36px;
-    margin: 24px 0 32px;
-    position: relative;
-  }
-
-  .question-card::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 28px;
-    width: 4px; height: calc(100% - 56px);
-    background: var(--teal);
-    border-radius: 0 4px 4px 0;
-  }
-
-  .question-text {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    line-height: 1.4;
-    font-weight: 600;
-    padding-left: 8px;
-  }
-
-  .answer-label {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .word-count {
-    font-family: var(--mono);
-  }
-
-  #answerInput {
-    min-height: 180px;
-    font-size: 1rem;
-  }
+  .skip-link:hover { color: var(--ink); text-decoration: underline; }
 
   .action-row {
     display: flex;
-    gap: 12px;
-    margin-top: 20px;
+    gap: 8px;
+    margin-top: 16px;
     align-items: center;
   }
 
-  .skip-link {
-    font-family: var(--sans);
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: var(--border);
+  /* ---------- Practice ---------- */
+  .session-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 12px;
   }
 
-  .skip-link:hover { color: var(--navy); }
+  .question-text {
+    font-size: 1.375rem;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+    max-width: 32em;
+  }
 
-  /* ---------- Loading state ---------- */
+  .answer-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .answer-label span:first-child { font-weight: 500; font-size: 0.9375rem; }
+  .word-count { font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  #answerInput { min-height: 200px; }
+
   .loading-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    padding: 20px 0;
+    gap: 10px;
+    color: var(--muted);
+    padding: 16px 0;
   }
 
   .spinner {
-    width: 16px; height: 16px;
-    border: 2px solid var(--border);
-    border-top-color: var(--teal);
+    width: 14px; height: 14px;
+    border: 2px solid var(--line);
+    border-top-color: var(--ink);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
@@ -347,192 +255,143 @@
 
   /* ---------- Feedback ---------- */
   .feedback-block {
-    border-top: 1px solid var(--border);
-    padding-top: 28px;
-    margin-top: 28px;
-    animation: rise 0.4s ease;
-  }
-
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .feedback-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-soft);
-    margin-bottom: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 22px;
   }
 
   .feedback-grade {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 4px;
   }
 
-  .grade-strong { background: var(--teal-light); color: var(--teal); }
-  .grade-okay { background: var(--amber-light); color: #97651E; }
-  .grade-needs-work { background: var(--rose-light); color: var(--rose); }
+  .feedback-grade::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .grade-strong { color: var(--strong); }
+  .grade-okay { color: var(--okay); }
+  .grade-needs-work { color: var(--weak); }
+
+  .feedback-headline {
+    font-size: 1.0625rem;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
 
   .feedback-section {
-    margin-bottom: 18px;
+    padding-top: 14px;
+    margin-top: 14px;
+    border-top: 1px solid var(--line);
   }
 
   .feedback-section-title {
     font-weight: 600;
-    font-size: 0.92rem;
-    margin-bottom: 6px;
-    color: var(--navy);
+    font-size: 0.875rem;
+    margin-bottom: 2px;
   }
 
-  .feedback-section-body {
-    font-size: 0.96rem;
-    color: var(--navy-soft);
-    line-height: 1.6;
-  }
+  .feedback-section-body { color: var(--ink-2); }
 
-  .feedback-section-body ul {
-    margin: 6px 0 0 18px;
-  }
+  .feedback-block .action-row { margin-top: 20px; }
 
-  .feedback-section-body li {
-    margin-bottom: 4px;
-  }
-
-  /* ---------- Setup error / config notice ---------- */
+  /* ---------- Notice ---------- */
   .notice {
-    background: var(--amber-light);
-    border: 1.5px solid var(--amber);
-    border-radius: 8px;
-    padding: 16px 18px;
-    font-size: 0.88rem;
-    color: #6B4717;
+    background: var(--surface);
+    border-left: 3px solid var(--okay);
+    padding: 12px 14px;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
     margin-bottom: 28px;
-    line-height: 1.55;
   }
 
-  .notice code {
-    font-family: var(--mono);
-    background: rgba(0,0,0,0.06);
-    padding: 2px 5px;
-    border-radius: 4px;
-    font-size: 0.85em;
-  }
+  .notice code { font-size: 0.875em; }
 
-  /* ---------- Completion screen ---------- */
-  .complete-wrap {
-    text-align: center;
-    padding: 60px 0;
-  }
-
-  .complete-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--teal);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 18px;
-  }
-
-  .complete-title {
-    font-family: var(--serif);
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 14px;
-  }
-
-  .complete-sub {
-    color: var(--ink-soft);
-    max-width: 460px;
-    margin: 0 auto 36px;
-  }
+  /* ---------- Done ---------- */
+  .complete-sub { color: var(--ink-2); margin-bottom: 24px; max-width: 34em; }
 
   .hidden { display: none !important; }
 
   @media (max-width: 640px) {
-    .topbar { padding: 18px 20px; }
-    .shell { padding: 36px 20px 80px; }
-    .setup-title { font-size: 2rem; }
-    .question-card { padding: 24px; }
-    .question-text { font-size: 1.25rem; }
-    .confidence-wrap { display: none; }
+    .topbar { padding: 0 16px; }
+    .shell { padding: 32px 16px 72px; }
+    .progress-track { width: 72px; }
+    h1 { font-size: 1.5rem; }
+    .question-text { font-size: 1.1875rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinner { animation-duration: 2s; }
+    .progress-fill { transition: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">
-    <span class="brand-mark">Firstwords</span>
-    <span class="brand-tag">Interview Practice</span>
+<header class="topbar">
+  <div class="brand">Firstwords</div>
+  <div class="progress" id="confidenceWrap">
+    <span id="progressLabel">Not started</span>
+    <div class="progress-track"><div class="progress-fill" id="confidenceFill"></div></div>
   </div>
-  <div class="confidence-wrap" id="confidenceWrap">
-    <span class="confidence-label">Session</span>
-    <div class="confidence-track">
-      <div class="confidence-fill" id="confidenceFill"></div>
-    </div>
-  </div>
-</div>
+</header>
 
-<div class="shell">
+<main class="shell">
 
   <!-- SETUP SCREEN -->
-  <div id="setupScreen">
-    <span class="setup-eyebrow">Before the real one</span>
-    <h1 class="setup-title">Practice the interview before it's the one that counts.</h1>
-    <p class="setup-sub">Pick a role. Get real interview questions, and clear feedback on every answer.</p>
+  <section id="setupScreen">
+    <h1>Interview practice</h1>
+    <p class="lede">Choose the job you're preparing for. You'll get three questions, one at a time, and feedback on each answer.</p>
 
     <div id="apiNotice" class="notice hidden"></div>
 
-    <div class="field-group">
-      <label class="field-label" for="roleInput">Role you're interviewing for</label>
-      <input type="text" id="roleInput" placeholder="e.g. Software Engineering Intern, Marketing Intern, Retail Associate" />
-      <div class="role-row">
-        <button class="role-chip" data-role="Software Engineering Intern">Software Eng Intern</button>
-        <button class="role-chip" data-role="Retail Associate">Retail Associate</button>
-        <button class="role-chip" data-role="Customer Support Rep">Customer Support</button>
-        <button class="role-chip" data-role="Marketing Intern">Marketing Intern</button>
-        <button class="role-chip" data-role="Administrative Assistant">Admin Assistant</button>
+    <div class="field">
+      <label class="field-label" for="roleInput">Role</label>
+      <input type="text" id="roleInput" placeholder="Software Engineering Intern" />
+      <div class="suggestions">
+        <span>Try:</span>
+        <button class="role-chip" data-role="Software Engineering Intern">Software engineering intern</button>
+        <button class="role-chip" data-role="Customer Support Rep">Customer support</button>
+        <button class="role-chip" data-role="Marketing Intern">Marketing intern</button>
+        <button class="role-chip" data-role="Retail Associate">Retail associate</button>
+        <button class="role-chip" data-role="Administrative Assistant">Admin assistant</button>
       </div>
     </div>
 
-    <div class="field-group">
-      <label class="field-label" for="bgInput">Your background (optional)</label>
-      <div class="field-hint">Add a few resume details for more specific questions.</div>
-      <textarea id="bgInput" placeholder="e.g. I worked at a coffee shop for two years, mostly handling customers and training new hires. I'm finishing a certificate in digital marketing..."></textarea>
+    <div class="field">
+      <label class="field-label" for="bgInput">About you <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <div class="field-hint">A few lines from your resume make the questions more specific to you.</div>
+      <textarea id="bgInput" placeholder="CS sophomore. Built a web app with a serverless backend. Worked food service for three years."></textarea>
     </div>
 
-    <button class="btn-primary" id="startBtn">Start practicing →</button>
-  </div>
+    <button class="btn-primary" id="startBtn">Start practice</button>
+  </section>
 
   <!-- PRACTICE SCREEN -->
-  <div id="practiceScreen" class="hidden">
+  <section id="practiceScreen" class="hidden">
     <div class="session-header">
-      <span class="q-counter" id="qCounter">Question 1 of 3</span>
-      <span class="q-role-tag" id="qRoleTag"></span>
+      <span id="qCounter">Question 1 of 3</span>
+      <span id="qRoleTag"></span>
     </div>
 
-    <div class="question-card">
-      <div class="question-text" id="questionText">Loading your first question…</div>
-    </div>
+    <h2 class="question-text" id="questionText" aria-live="polite">Loading your first question…</h2>
 
     <div id="answerArea">
       <div class="answer-label">
-        <span>Your answer</span>
+        <label for="answerInput">Your answer</label>
         <span class="word-count" id="wordCount">0 words</span>
       </div>
-      <textarea id="answerInput" placeholder="Take your time. Write it like you'd say it out loud."></textarea>
+      <textarea id="answerInput" placeholder="Write it the way you'd say it out loud."></textarea>
       <div class="action-row">
         <button class="btn-primary" id="submitBtn">Get feedback</button>
-        <button class="skip-link" id="skipBtn">Skip this one</button>
+        <button class="skip-link" id="skipBtn">Skip question</button>
       </div>
     </div>
 
@@ -543,20 +402,17 @@
       </div>
     </div>
 
-    <div id="feedbackArea" class="hidden"></div>
-  </div>
+    <div id="feedbackArea" class="hidden" aria-live="polite"></div>
+  </section>
 
   <!-- COMPLETE SCREEN -->
-  <div id="completeScreen" class="hidden">
-    <div class="complete-wrap">
-      <div class="complete-eyebrow">Session complete</div>
-      <h2 class="complete-title">That's three questions down.</h2>
-      <p class="complete-sub">The real interview will feel more familiar than the last one did. Run another round whenever you want — same role or a new one.</p>
-      <button class="btn-secondary" id="restartBtn">Practice again</button>
-    </div>
-  </div>
+  <section id="completeScreen" class="hidden">
+    <h1>Round complete</h1>
+    <p class="complete-sub">Run another round with the same role for new questions, or switch to a different one.</p>
+    <button class="btn-secondary" id="restartBtn">Practice again</button>
+  </section>
 
-</div>
+</main>
 
 <script>
 /* ============================================================
@@ -565,7 +421,7 @@
    This file is fully self-contained (HTML/CSS/JS). The only
    external dependency is the Anthropic API call in callClaude().
 
-   This site calls a Netlify Function (netlify/functions/ask.js) which
+   This site calls a Netlify Function (netlify/functions/ask.mjs) which
    holds the real Anthropic API key server-side, in an environment
    variable, and forwards requests to Claude. The key never appears
    in this file or in the browser. Set ANTHROPIC_API_KEY in:
@@ -606,6 +462,7 @@
   const loadingText = document.getElementById('loadingText');
   const feedbackArea = document.getElementById('feedbackArea');
   const confidenceFill = document.getElementById('confidenceFill');
+  const progressLabel = document.getElementById('progressLabel');
   const restartBtn = document.getElementById('restartBtn');
 
   // ---------- Setup screen interactions ----------
@@ -649,7 +506,7 @@
 
   // ---------- Question generation ----------
   async function generateQuestions() {
-    questionText.textContent = "Putting together questions for this role…";
+    questionText.textContent = "Writing questions for this role…";
 
     try {
       const raw = await callClaude({ action: "questions", role: state.role, background: state.background });
@@ -728,17 +585,14 @@
 
   function renderFeedback(fb) {
     const gradeClass = fb.grade === 'strong' ? 'grade-strong' : fb.grade === 'needs_work' ? 'grade-needs-work' : 'grade-okay';
-    const gradeLabel = fb.grade === 'strong' ? 'Strong answer' : fb.grade === 'needs_work' ? 'Needs work' : 'Solid start';
+    const gradeLabel = fb.grade === 'strong' ? 'Strong answer' : fb.grade === 'needs_work' ? 'Needs work' : 'Good start';
 
     feedbackArea.innerHTML = `
       <div class="feedback-block">
-        <div class="feedback-eyebrow">Feedback</div>
         <div class="feedback-grade ${gradeClass}">${gradeLabel}</div>
+        <p class="feedback-headline">${escapeHtml(fb.headline)}</p>
         <div class="feedback-section">
-          <div class="feedback-section-body" style="font-family: var(--serif); font-size: 1.1rem; color: var(--navy);">${escapeHtml(fb.headline)}</div>
-        </div>
-        <div class="feedback-section">
-          <div class="feedback-section-title">What's working</div>
+          <div class="feedback-section-title">What worked</div>
           <div class="feedback-section-body">${escapeHtml(fb.whats_working)}</div>
         </div>
         <div class="feedback-section">
@@ -750,7 +604,7 @@
           <div class="feedback-section-body">${escapeHtml(fb.try_this)}</div>
         </div>
         <div class="action-row">
-          <button class="btn-primary" id="nextBtn">${state.currentIndex < TOTAL_QUESTIONS - 1 ? 'Next question →' : 'Finish session →'}</button>
+          <button class="btn-primary" id="nextBtn">${state.currentIndex < TOTAL_QUESTIONS - 1 ? 'Next question' : 'Finish round'}</button>
         </div>
       </div>
     `;
@@ -770,6 +624,7 @@
   function updateConfidenceMeter() {
     const pct = Math.round((state.scores.length / TOTAL_QUESTIONS) * 100);
     confidenceFill.style.width = pct + '%';
+    progressLabel.textContent = `${state.scores.length} of ${TOTAL_QUESTIONS} answered`;
   }
 
   function showComplete() {
@@ -781,7 +636,12 @@
     completeScreen.classList.add('hidden');
     setupScreen.classList.remove('hidden');
     confidenceFill.style.width = '0%';
+    progressLabel.textContent = 'Not started';
     answerInput.value = '';
+    roleInput.value = '';
+    bgInput.value = '';
+    document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
+    roleInput.focus();
     state = { role: "", background: "", questions: [], currentIndex: 0, scores: [] };
   });
 
